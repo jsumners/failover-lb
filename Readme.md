@@ -10,8 +10,8 @@ This repository includes files from the following projects:
 
 ## Building
 
-1) Clone this repository
-2) Run the `build.sh` script
+1. Clone this repository
+2. Run the `build.sh` script
 
 That's really all there is to it. Running `build.sh` without a parameter will build both
 HAProxy and Keepalived. You can choose to build a single package by specifying the name:
