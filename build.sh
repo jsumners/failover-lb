@@ -1,7 +1,7 @@
 #!/bin/bash
 
-keepalivedVersion="1.2.13"
-haproxyVersion="1.5.8"
+keepalivedVersion="1.2.15"
+haproxyVersion="1.5.10"
 
 keepalivedUrl="http://keepalived.org/software/keepalived-${keepalivedVersion}.tar.gz"
 haproxyUrl="http://www.haproxy.org/download/1.5/src/haproxy-${haproxyVersion}.tar.gz"
