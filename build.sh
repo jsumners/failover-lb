@@ -36,6 +36,30 @@ fi
 # Let's get down to business
 TOPDIR=$(pwd)
 
+function buildit {
+  if [ -f ${TOPDIR}/gpg-env ]; then
+    source ${TOPDIR}/gpg-env
+    echo "Building signed RPM..."
+    if [ "${gpg_bin}" != "" ]; then
+      rpmbuild --define "_topdir ${TOPDIR}/rpmbuild" --define "_signature ${signature}" \
+        --define "_gpg_path ${gpg_path}" --define "_gpg_name ${gpg_name}" \
+        --define "__gpg ${gpg_bin}" --sign -ba $1
+    else
+      rpmbuild --define "_topdir ${TOPDIR}/rpmbuild" --define "_signature ${signature}" \
+        --define "_gpg_path ${gpg_path}" --define "_gpg_name ${gpg_name}" \
+        --sign -ba $1
+    fi
+  else
+    echo "Building unsigned RPM..."
+    rpmbuild --define "_topdir ${TOPDIR}/rpmbuild" -ba $1
+  fi
+
+  if [ $? -ne 0 ]; then
+    echo "Build failed. Exiting..."
+    exit 1
+  fi
+}
+
 if [ -e rpmbuild ]; then
   rm -rf rpmbuild/* 2>&1 > /dev/null
 fi
@@ -56,7 +80,7 @@ if [ $? -eq 0 ]; then
   wget ${haproxyUrl}
   
   cd ${TOPDIR}/rpmbuild/
-  rpmbuild --define "_topdir ${TOPDIR}/rpmbuild" -ba "SPECS/haproxy.spec"
+  buildit "SPECS/haproxy.spec"
 fi
 
 # keepalived
@@ -75,5 +99,5 @@ if [ $? -eq 0 ]; then
   cp keepalived.rh.init ${TOPDIR}/rpmbuild/SOURCES/keepalived.init
 
   cd ${TOPDIR}/rpmbuild/
-  rpmbuild --define "_topdir ${TOPDIR}/rpmbuild" -ba "SPECS/keepalived.spec"
+  buildit "SPECS/keepalived.spec"
 fi
