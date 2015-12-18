@@ -1,10 +1,12 @@
 #!/bin/bash
 
 keepalivedVersion="1.2.19"
-haproxyVersion="1.5.14"
+haproxyVersion="1.6.2"
+luaVersion="5.3.1"
 
 keepalivedUrl="http://keepalived.org/software/keepalived-${keepalivedVersion}.tar.gz"
-haproxyUrl="http://www.haproxy.org/download/1.5/src/haproxy-${haproxyVersion}.tar.gz"
+haproxyUrl="http://www.haproxy.org/download/${haproxyVersion:0:3}/src/haproxy-${haproxyVersion}.tar.gz"
+luaUrl="http://www.lua.org/ftp/lua-${luaVersion}.tar.gz"
 
 which wget > /dev/null
 if [ $? -ne 0 ]; then
@@ -26,7 +28,7 @@ fi
 
 echo ${product} | grep -E '^(both|haproxy|keepalived)$' 2>&1 > /dev/null
 if [ $? -ne 0 ]; then
-  echo "Invalid product name. Valid options are 'keepalived', 'haproxy', or 'both'."
+  echo "Invalid product name. Valid options are 'keepalived', 'haproxy' or 'both'."
   echo "For example:"
   echo -e "\t./build.sh keepalived"
   exit 1

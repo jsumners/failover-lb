@@ -53,7 +53,8 @@ possibility not to expose fragile web servers to the net.
 use_regparm="USE_REGPARM=1"
 %endif
 
-make %{?_smp_mflags} CPU="generic" TARGET="linux26" USE_PCRE=1 USE_OPENSSL=1 USE_ZLIB=1 ${use_regparm}
+make %{?_smp_mflags} CPU="generic" TARGET="linux26" USE_PCRE=1 USE_OPENSSL=1 \
+  USE_ZLIB=1 USE_VSYSCALL=1 US_NS=1 ${use_regparm}
 
 pushd contrib/halog
 make halog
@@ -103,12 +104,7 @@ fi
 %files
 %defattr(-,root,root,-)
 %doc CHANGELOG LICENSE README doc/*
-%doc examples/url-switching.cfg
-%doc examples/acl-content-sw.cfg
-%doc examples/content-sw-sample.cfg
-%doc examples/cttproxy-src.cfg
-%doc examples/haproxy.cfg
-%doc examples/tarpit.cfg
+%doc examples/*.cfg
 %{haproxy_datadir}
 %dir %{haproxy_confdir}
 %config(noreplace) %{haproxy_confdir}/%{name}.cfg
@@ -118,7 +114,7 @@ fi
 %{_bindir}/halog
 %{_mandir}/man1/%{name}.1.gz
 %attr(-,%{haproxy_user},%{haproxy_group}) %dir %{haproxy_home}
-%exclude %{_sbindir}/haproxy-systemd-wrapper
+#%exclude %{_sbindir}/haproxy-systemd-wrapper
 
 %changelog
 * Wed Aug 20 2014 Alan Ivey <alanivey@gmail.com> - 1.5.3
