@@ -1,7 +1,7 @@
 #!/bin/bash
 
 keepalivedVersion="1.2.19"
-haproxyVersion="1.6.2"
+haproxyVersion="1.7.5"
 luaVersion="5.3.1"
 
 keepalivedUrl="http://keepalived.org/software/keepalived-${keepalivedVersion}.tar.gz"
